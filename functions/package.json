@@ -1,0 +1,12 @@
+{
+  "name": "cyber-mystery-arena-functions",
+  "private": true,
+  "type": "module",
+  "main": "index.js",
+  "engines": { "node": "20" },
+  "scripts": { "set-admin": "node scripts/set-admin.mjs" },
+  "dependencies": {
+    "firebase-admin": "^14.5.1",
+    "firebase-functions": "^7.4.0"
+  }
+}

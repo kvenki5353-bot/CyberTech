@@ -1,0 +1,33 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() { return request.auth != null; }
+    function admin() { return signedIn() && request.auth.token.admin == true; }
+    match /users/{userId} {
+      allow read: if signedIn() && (request.auth.uid == userId || admin());
+      allow create: if signedIn() && request.auth.uid == userId && request.resource.data.keys().hasOnly(['displayName', 'college', 'publicCollege', 'createdAt', 'role']) && request.resource.data.role == 'player' && request.resource.data.publicCollege is bool;
+      allow update: if signedIn() && request.auth.uid == userId && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['displayName', 'college', 'publicCollege']);
+      allow delete: if admin();
+    }
+    match /cases/{caseId} { allow read: if signedIn(); allow write: if admin(); }
+    match /evidence/{evidenceId} { allow read: if signedIn(); allow write: if admin(); }
+    match /questions/{questionId} { allow read: if signedIn(); allow write: if admin(); }
+    match /games/{gameId} {
+      allow read: if signedIn();
+      allow write: if false;
+      match /participants/{userId} { allow read: if admin(); allow write: if false; }
+    }
+    match /teams/{teamId} { allow read: if signedIn() && request.auth.uid in resource.data.memberIds; allow write: if false; }
+    match /scores/{scoreId} { allow read: if signedIn(); allow write: if false; }
+    match /rankings/{rankingId} { allow read: if signedIn(); allow write: if false; }
+    match /submissions/{submissionId} { allow read: if signedIn() && (resource.data.ownerId == request.auth.uid || admin()); allow write: if false; }
+    match /achievements/{achievementId} { allow read: if signedIn(); allow write: if false; }
+    match /announcements/{announcementId} { allow read: if signedIn(); allow write: if admin(); }
+    match /stats/{statId} { allow read: if statId == 'arena'; allow write: if false; }
+    match /sessions/{sessionId} {
+      allow read: if signedIn() && (resource.data.ownerId == request.auth.uid || (resource.data.teamId != null && request.auth.uid in get(/databases/$(database)/documents/teams/$(resource.data.teamId)).data.memberIds));
+      allow write: if false;
+    }
+    match /{document=**} { allow read, write: if false; }
+  }
+}

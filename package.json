@@ -1,0 +1,31 @@
+{
+	"name": "cyber-mystery-arena",
+	"private": true,
+	"version": "1.0.0",
+	"type": "module",
+	"scripts": {
+		"dev": "vite",
+		"build": "vite build",
+		"test": "node --test functions/test/cases.test.js",
+		"preview": "vite preview",
+		"emulators": "firebase emulators:start --only auth,firestore,database,functions,hosting",
+		"deploy": "npm run build && firebase deploy"
+	},
+	"dependencies": {
+		"@vitejs/plugin-react": "^4.5.0",
+		"firebase": "^13.3.0",
+		"framer-motion": "^12.23.0",
+		"lucide-react": "^0.468.0",
+		"react": "^19.1.0",
+		"react-dom": "^19.1.0"
+	},
+	"devDependencies": {
+		"@tailwindcss/vite": "^4.1.8",
+		"firebase-tools": "^15.36.0",
+		"tailwindcss": "^4.1.8",
+		"vite": "^6.3.5"
+	},
+	"overrides": {
+		"@grpc/grpc-js": "^1.14.7"
+	}
+}
