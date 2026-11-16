@@ -1,5 +1,7 @@
 # CYBER MYSTERY ARENA
 
+Repository: CyberTech
+
 **Investigate. Analyse. Decode. Uncover the Truth!**
 
 CYBER MYSTERY ARENA is a responsive, website-based cybersecurity investigation game for students. Players inspect invented incident briefs, clues, evidence records, and timelines; answer case questions; and submit a verdict for server-side scoring. It is designed as a safe, college-event learning activity rather than a quiz or a live cyber range. The cases use synthetic data and do not require access to real accounts, networks, websites, or devices.
